@@ -68,5 +68,5 @@ workflows:
           requires:
             - acceptances_tests_1
             - acceptances_tests_2
-            - acceptances_tests_2
-            - acceptances_tests_2
+            - acceptances_tests_3
+            - acceptances_tests_4
