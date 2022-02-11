@@ -5,6 +5,10 @@ jobs:
     machine: true
     steps:
       - run: echo "Waiting until response from staging..."
+  deploy_staging:
+    machine: true
+    steps:
+      - run: echo "integration tests backend"
   deploy_production:
     machine: true
     steps:
@@ -35,10 +39,6 @@ jobs:
     machine: true
     steps:
       - run: echo "deploy backend"
-  deploy_staging:
-    machine: true
-    steps:
-      - run: echo "integration tests backend"
 workflows:
   build:
     jobs:
@@ -58,7 +58,7 @@ workflows:
       - acceptances_tests_2:
           requires:
             - integration_tests_backend
-      - acceptances_tests_4:
+      - acceptances_tests_3:
           requires:
             - integration_tests_backend
       - acceptances_tests_4:
