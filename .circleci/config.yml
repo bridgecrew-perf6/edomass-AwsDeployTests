@@ -1,61 +1,72 @@
 version: 2.1
 
 jobs:
-  waitForStagingToBeUp:
+  integration_tests_backend:
     machine: true
     steps:
       - run: echo "Waiting until response from staging..."
-  deployProd:
+  deploy_production:
     machine: true
     steps:
       - run: echo "deploy production build"
-  notifyTeamOfNewBuild:
-    machine: true
-    steps:
-      - run: echo "notifying team of new build pipeline"
-  acceptances1:
+  acceptances_tests_1:
     machine: true
     steps:
       - run: echo "acceptance tests 1-5"
-  checkoutAndTest:
+  checkout_And_unit_test:
     docker:
       - image: cimg/node:15.8.0
     steps:
       - checkout
       - run: echo "unit tests"
-  acceptances2:
+  acceptances_tests_2:
     machine: true
     steps:
       - run: echo "acceptance tests 6-10"
-  deployStaging:
+  acceptances_tests_3:
     machine: true
     steps:
-      - run: echo "deploy staging"
-  notifyNewVersion:
+      - run: echo "acceptance tests 6-10"
+  acceptances_tests_4:
     machine: true
     steps:
-      - run: echo "notifying client of new version"
+      - run: echo "acceptance tests 6-10"
+  deploy_backend:
+    machine: true
+    steps:
+      - run: echo "deploy backend"
+  deploy_staging:
+    machine: true
+    steps:
+      - run: echo "integration tests backend"
 workflows:
   build:
     jobs:
-      - notifyTeamOfNewBuild
-      - checkoutAndTest
-      - deployStaging:
+      - checkout_And_unit_test
+      - deploy_backend:
           requires:
-            - checkoutAndTest
-      - waitForStagingToBeUp:
+            - checkout_And_unit_test
+      - deploy_staging:
           requires:
-            - deployStaging
-      - acceptances1:
+            - integration_tests_backend
+      - integration_tests_backend:
           requires:
-            - waitForStagingToBeUp
-      - acceptances2:
+            - deploy_backend
+      - acceptances_tests_1:
           requires:
-            - waitForStagingToBeUp
-      - deployProd:
+            - integration_tests_backend
+      - acceptances_tests_2:
           requires:
-            - acceptances1
-            - acceptances2
-      - notifyNewVersion:
+            - integration_tests_backend
+      - acceptances_tests_4:
           requires:
-            - deployProd
+            - integration_tests_backend
+      - acceptances_tests_4:
+          requires:
+            - integration_tests_backend
+      - deploy_production:
+          requires:
+            - acceptances_tests_1
+            - acceptances_tests_2
+            - acceptances_tests_2
+            - acceptances_tests_2
