@@ -54,16 +54,16 @@ workflows:
             - deploy_backend
       - acceptances_tests_1:
           requires:
-            - integration_tests_backend
+            - deploy_staging
       - acceptances_tests_2:
           requires:
-            - integration_tests_backend
+            - deploy_staging
       - acceptances_tests_3:
           requires:
-            - integration_tests_backend
+            - deploy_staging
       - acceptances_tests_4:
           requires:
-            - integration_tests_backend
+            - deploy_staging
       - deploy_production:
           requires:
             - acceptances_tests_1
